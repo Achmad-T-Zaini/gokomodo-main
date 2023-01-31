@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+        <!-- Tree View -->
+        <record id="account_terbilang_tree_view" model="ir.ui.view">
+            <field name="name">account.terbilang.tree</field>
+            <field name="model">account.terbilang</field>
+            <field name="arch" type="xml">
+                <tree string="Terbilang Tree" editable="top">
+                    <field name="name" />
+                    <field name="bilang" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_account_terbilang" model="ir.actions.act_window">
+            <field name="name">Terbilang</field>
+            <field name="res_model">account.terbilang</field>
+            <field name="view_mode">tree</field>
+            <field name="target">current</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Create Terbilang Translation</p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_account_terbilang_action" name="Terbilang" 
+					action="action_account_terbilang"
+                   	parent="account.account_invoicing_menu"
+                    sequence="9"/>
+
+	</data>
+</odoo>

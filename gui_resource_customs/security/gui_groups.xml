@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <!--
+            Users Groups
+            Note that the field 'category_id' is set later in
+            base/data/ir_module_category_data.xml
+        -->
+
+        <record model="res.groups" id="group_cataloger">
+            <field name="name">Cataloger</field>
+            <field name="users" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record model="res.groups" id="group_po_creator">
+            <field name="name">Purchase Order Creator</field>
+            <field name="category_id" ref="base.module_category_inventory_purchase"/>
+            <field name="implied_ids" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+            <field name="users" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_move_form_gui" model="ir.ui.view">
+            <field name="name">account.move.form.inherit.gui</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="priority">17</field>
+            <field name="arch" type="xml">
+                <field name="narration" position="after">
+                    <group>
+                        <field name="terbilang" readonly='1' />
+                    </group>
+                </field>
+
+                <field name="invoice_user_id" position="after">
+                    <field name="sales_person_employee" string="Sales Employee" attrs="{'required': [('move_type', '=', 'out_invoice')]}" options="{'no_create': True}"/>
+                </field>
+
+                <xpath expr="//field[@name='invoice_user_id']" position="attributes">
+                    <attribute name="domain">[["groups_id","in",[1,9]]]</attribute>
+                    <attribute name="invisible">1</attribute>
+                    <!-- penambahan User Portal As SalesPerson -->
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

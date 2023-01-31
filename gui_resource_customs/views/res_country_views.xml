@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- State -->
+        <record id="base.view_country_state_tree" model="ir.ui.view">
+            <field name="name">res.country.state.tree</field>
+            <field name="model">res.country.state</field>
+            <field name="arch" type="xml">
+                <tree string="State" editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="country_id" options="{'no_create': True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="base.view_country_state_form" model="ir.ui.view">
+            <field name="name">res.country.state.form</field>
+            <field name="model">res.country.state</field>
+            <field name="arch" type="xml">
+                <form string="State">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="country_id" options='{"no_open": True, "no_create": True}'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="base.view_country_state_search" model="ir.ui.view">
+            <field name="name">res.country.state.search</field>
+            <field name="model">res.country.state</field>
+            <field name="arch" type="xml">
+                <search string="Country">
+                    <field name="name"/>
+                    <field name="country_id"/>
+                    <group string="Group By">
+                        <filter name="groupby_country" string="Country" context="{'group_by': 'country_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="base.action_country_state" model="ir.actions.act_window">
+            <field name="name">Province</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.state</field>
+            <field name="view_id" ref="base.view_country_state_tree"/>
+            <field name="help">You can manage the different federal states you are working on from here. Each state is attached to one country.</field>
+        </record>
+
+        <record id="view_state_city_tree" model="ir.ui.view">
+            <field name="name">res.state.city.tree</field>
+            <field name="model">res.state.city</field>
+            <field name="arch" type="xml">
+                <tree string="State" editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="state_id" options="{'no_create': True}" required='1'/>
+                    <field name="country_id" readonly='1'/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_state_city_form" model="ir.ui.view">
+            <field name="name">res.state.city.form</field>
+            <field name="model">res.state.city</field>
+            <field name="arch" type="xml">
+                <form string="State">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="state_id" options='{"no_open": True, "no_create": True}' required='1'/>
+                            <field name="country_id" options='{"no_open": True, "no_create": True}'/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_kabkota" model="ir.actions.act_window">
+            <field name="name">Kabupaten Kota</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.state.city</field>
+            <field name="view_id" ref="view_state_city_tree"/>
+            <field name="help">You can manage the different City you are working on from here. Each City is attached to one Province.</field>
+        </record>
+
+    <menuitem id="contacts.menu_country_state_partner"
+        action="base.action_country_state"
+        parent="contacts.menu_localisation"
+        name="Province"
+        sequence="2"/>
+
+    <menuitem id="menu_kabkota"
+        action="action_kabkota"
+        name="Kabupaten Kota" parent="contacts.menu_localisation"
+        sequence="3"/>
+
+    <menuitem id="contacts.menu_country_group"
+        action="base.action_country_group"
+        name="Country Group" parent="contacts.menu_localisation"
+        sequence="4"/>
+
+    </data>
+</odoo>

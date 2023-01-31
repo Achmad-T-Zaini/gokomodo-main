@@ -1,0 +1,231 @@
+<odoo>
+
+
+    <template id="sdt_report_sales.report_sdt_lines_header">
+        <div class="act_as_thead">
+            <div class="act_as_row labels">
+                <div class="act_as_cell">Order</div>
+<!-- Additional ODP-12 -->
+                <div class="act_as_cell">Customer</div>
+                <div class="act_as_cell">Provinsi</div>
+                <div class="act_as_cell">Sales Person</div>
+                <div class="act_as_cell">Order Type</div>
+                <div class="act_as_cell">Route</div>
+                <div class="act_as_cell">Status</div>
+<!-- end of Additional ODP-12 -->
+                <div class="act_as_cell">Product</div>
+                <div class="act_as_cell">Qty Order</div>
+                <div class="act_as_cell">UoM</div>
+                <div class="act_as_cell">Price</div>
+
+<!-- Additional ODP-12 -->
+                <div class="act_as_cell">MTotal Sales</div>
+                <div class="act_as_cell">Margin</div>
+                <div class="act_as_cell">Margin to Cost(%)</div>
+                <div class="act_as_cell">Margin to Sale(%)</div>
+
+                <div class="act_as_cell">Delivery</div>
+                <div class="act_as_cell">Qty Delivery</div>
+                <div class="act_as_cell">Invoice</div>
+                <div class="act_as_cell">Qty Invoice</div>
+                <div class="act_as_cell">Credit Note</div>
+                <div class="act_as_cell">Qty CN</div>
+                <div class="act_as_cell">Request</div>
+                <div class="act_as_cell">Qty Request</div>
+                <div class="act_as_cell">Purchase</div>
+                <div class="act_as_cell">Qty Purchase</div>
+                <div class="act_as_cell">Received</div>
+<!-- Additional ODP-12 -->
+                <div class="act_as_cell">Cost</div>
+
+                <div class="act_as_cell">Qty Received</div>
+                <div class="act_as_cell">Bill</div>
+                <div class="act_as_cell">Qty Bill</div>
+                <div class="act_as_cell">Refund</div>
+                <div class="act_as_cell">Qty Refund</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="sdt_report_sales.report_sdt_lines">
+        <div class="act_as_row lines">
+            <div class="act_as_cell left">
+                <t t-esc="line.sale_id.name" />
+            </div>
+<!-- Additional ODP-12 -->
+            <div class="act_as_cell left">
+                <t t-esc="line.customer" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.provinsi" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.sales" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.order_type" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.route" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.status" />
+            </div>
+<!-- end of Additional ODP-12 -->
+            <div class="act_as_cell left">
+                <t t-esc="line.product_id.name" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_order)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.product_uom_id.name" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.price_unit)" />
+            </div>
+<!-- Additional ODP-12 -->
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_order * line.price_unit)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="'{0:,.2f}'.format(line.sale_margin)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="'{0:,.2f}'.format(line.sale_margin2cost)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="'{0:,.2f}'.format(line.sale_margin2sale)" />
+            </div>
+
+            <div class="act_as_cell left">
+                <t t-esc="line.delivered" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_delivered)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.invoice" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_invoice)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.credit_note" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_credit_note)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.request" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_request)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.purchase" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_purchase)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.received" />
+            </div>
+<!-- Additional ODP-12 -->
+            <div class="act_as_cell left">
+                <t t-esc="'{0:,.2f}'.format(line.sale_cost)" t-options="{'widget': 'percentage'}"/>
+            </div>
+
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_received)" t-options="{'widget': 'percentage'}"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.bill" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_bill)" />
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="line.refund" />
+            </div>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(line.qty_refund)" />
+            </div>
+        </div>
+    </template>
+
+    <template id="sdt_report_sales.report_sdt_lines_footer">
+        <t t-set="total_qty_order" t-value="0.00" />
+        <t t-set="total_qty_delivered" t-value="0.00" />
+        <t t-set="total_qty_invoice" t-value="0.00" />
+        <t t-set="total_qty_credit_note" t-value="0.00" />
+        <t t-set="total_qty_request" t-value="0.00" />
+        <t t-set="total_qty_purchase" t-value="0.00" />
+        <t t-set="total_qty_received" t-value="0.00" />
+        <t t-set="total_qty_bill" t-value="0.00" />
+        <t t-set="total_qty_refund" t-value="0.00" />
+        <t t-set="total_sales" t-value="0.00" />
+        
+        <t t-foreach="o.results" t-as="line">
+            <t t-set="total_qty_order" t-value="total_qty_order + line.qty_order" />
+            <t t-set="total_sales" t-value="total_sales + (line.qty_order * line.price_unit)" />
+            <t t-set="total_qty_delivered" t-value="total_qty_delivered + line.qty_delivered" />
+            <t t-set="total_qty_invoice" t-value="total_qty_invoice + line.qty_invoice" />
+            <t t-set="total_qty_credit_note" t-value="total_qty_credit_note + line.qty_credit_note" />
+            <t t-set="total_qty_request" t-value="total_qty_request + line.qty_request" />
+            <t t-set="total_qty_purchase" t-value="total_qty_purchase + line.qty_purchase" />
+            <t t-set="total_qty_received" t-value="total_qty_received + line.qty_received" />
+            <t t-set="total_qty_bill" t-value="total_qty_bill + line.qty_bill" />
+            <t t-set="total_qty_refund" t-value="total_qty_refund + line.qty_refund" />
+        </t>
+
+        <div class="act_as_row labels">
+            <div class="act_as_cell center">
+                <t><span>Total</span></t>
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_order)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_sales)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_delivered)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_invoice)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_credit_note)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_request)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_purchase)" />
+            </div>
+            <div class="act_as_cell left"/>
+            <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_received)" />
+            </div>
+            <div class="act_as_cell left"/>
+             <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_bill)" />
+            </div>
+            <div class="act_as_cell left"/>
+             <div class="act_as_cell right">
+                <t t-esc="'{0:,.2f}'.format(total_qty_refund)" />
+            </div>
+            
+        </div>
+    </template>
+
+</odoo>

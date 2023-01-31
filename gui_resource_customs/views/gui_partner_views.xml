@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="ir.ui.view" id="base_view_partner_form_inherit_gui">
+            <field name="name">res.partner.view.inherit.gui</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='city']" position="after">
+                        <field name="city_id" options='{"no_open": True, "no_create": True}' class="o_address_city" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                    <!-- penambahan field longitude dan latitude -->
+                </xpath>
+                <xpath expr="//field[@name='city']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    <!-- penambahan User Portal As SalesPerson -->
+                </xpath>
+                <xpath expr="//field[@name='state_id']" position="replace">
+                    <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_create': True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+                </xpath>
+
+            <field name="property_payment_term_id" position="attributes">
+                <attribute name="groups">account.group_account_invoice,account.group_account_readonly,gui_resource_customs.group_cataloger</attribute>
+            </field>
+            <field name="property_supplier_payment_term_id" position="attributes">
+                <attribute name="groups">account.group_account_invoice,account.group_account_readonly,gui_resource_customs.group_cataloger</attribute>
+            </field>
+
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

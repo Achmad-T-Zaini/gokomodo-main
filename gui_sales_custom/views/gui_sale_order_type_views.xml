@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    <!--tree view-->
+    <record id="sdt_udf_gui.view_order_type_tree" model="ir.ui.view">
+        <field name="name">order_type_tree</field>
+        <field name="model">sdt.order.type</field>
+        <field name="type">tree</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <tree string="Order Type" editable="bottom">
+                <field name="name"/>
+                <field name="sales_order_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- form -->
+    <record id="sdt_udf_gui.view_order_type_form" model="ir.ui.view">
+        <field name="name">order_type_form</field>
+        <field name="model">sdt.order.type</field>
+        <field name="type">form</field>
+        <field name="priority" eval="7"/>
+        <field name="arch" type="xml">
+            <form string="Order Type" >
+                <sheet>
+                    <h1 class="mt0">
+                        <field name="name"/>
+                    </h1>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+	<record id="order_type_menu_action" model="ir.actions.act_window">
+            <field name="name">Order Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sdt.order.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create Order Type
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="order_type_config"
+            name="Order Type"
+            parent="sale.menu_sale_config"
+            action="gui_sales_custom.order_type_menu_action"
+            sequence="9"/>
+
+    </data>
+</odoo>

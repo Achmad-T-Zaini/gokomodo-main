@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kabkota_user,res.state.city.user,model_res_state_city,gui_resource_customs.group_wilayah_user,1,0,0,0
+access_kabkota_manager,res.state.city.manager,model_res_state_city,gui_resource_customs.group_wilayah_manager,1,1,1,1
+access_kecamatan_user,wilayah.kecamatan.user,model_res_city_district,gui_resource_customs.group_wilayah_user,1,0,0,0
+access_kecamatan_manager,wilayah.kecamatan.manager,model_res_city_district,gui_resource_customs.group_wilayah_manager,1,1,1,1
+access_kelurahan_user,wilayah.kelurahan.user,model_res_district_village,gui_resource_customs.group_wilayah_user,1,0,0,0
+access_kelurahan_manager,wilayah.kelurahan.manager,model_res_district_village,gui_resource_customs.group_wilayah_manager,1,1,1,1
+
+access_cataloger_payment_term_line,account.payment.term.line.cataloger,account.model_account_payment_term_line,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_payment_term,account.payment.term.cataloger,account.model_account_payment_term,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_kabkota,res.state.city.cataloger,model_res_state_city,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_kecamatan,res.state.kecamatan.cataloger,model_res_city_district,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_kelurahan,res.state.kelurahan.cataloger,model_res_district_village,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_contact,cataloger.contact.creation,base.model_res_partner,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_product,cataloger.product.product.creation,product.model_product_product,gui_resource_customs.group_cataloger,1,1,1,1
+access_cataloger_product_template,cataloger.product.template.creation,product.model_product_template,gui_resource_customs.group_cataloger,1,1,1,1
+access_po_creator,purchase.group.po_creator,purchase.model_purchase_order,gui_resource_customs.group_po_creator,1,1,1,1

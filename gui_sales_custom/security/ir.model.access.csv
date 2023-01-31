@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_terbilang_user,account_terbilang_user,model_account_terbilang,,1,0,0,0
+access_account_terbilang_manager,account_terbilang_manager,model_account_terbilang,account.group_account_manager,1,1,1,1
+access_gui_sale_report,gui_sale_report,model_gui_sale_report,base.group_user,1,1,1,1
