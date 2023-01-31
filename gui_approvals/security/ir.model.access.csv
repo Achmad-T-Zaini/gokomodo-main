@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_approval_request_wizard,approval_request_wizard,model_approval_request_wizard,base.group_user,1,1,1,1
+access_approvals_category_lines,approvals_category_lines,model_approval_category_line,approvals.group_approval_user,1,1,1,0
+access_approvals_category_lines_manager,approvals_category_lines_manager,model_approval_category_line,approvals.group_approval_manager,1,1,1,1

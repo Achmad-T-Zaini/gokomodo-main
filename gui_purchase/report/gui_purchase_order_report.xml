@@ -1,0 +1,387 @@
+<odoo>
+    <data>
+
+        <report id="report_po_menu_gui"
+                string="Purchase Order GoKomodo"
+                model="purchase.order"
+                report_type="qweb-pdf"
+                file="purchase.order"
+                name="gui_purchase.standard_po_report"
+                paperformat="sdt_form_gokomodo.paperformat_sdt_form_gokomodo"
+                print_report_name="'Purchase Order Gokomodo - %s' % (object.name)">
+        </report>
+
+
+        <template id="standard_po_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="gui_purchase.standard_po_document"></t>
+                </t>
+            </t>
+        </template>
+
+        <template id="standard_po_document">
+            <!-- <t t-call="sdt_form_gokomodo.delivery_internal_layout"> -->
+            <t t-call="gui_purchase.header_internal_layout_gui"> 
+            <!-- <t t-call="web.external_layout"> -->
+                <div style="font-Size:9pt; font-family: sans serif;" class="page">
+                    <style type="text/css">
+                    
+                        th, td {
+                            padding-left: 5px;
+                            padding-right: 5px;
+                        }
+                        table.table_base {
+                            width: 100%; 
+                            border-collapse: collapse; 
+                        }
+                        table.table_base td, table.table_base th  {
+                            border: 1px solid black;
+                        }
+                        table.table_base th  {
+                            text-align:center;
+                        }
+                        table.table_head {
+                            width: 100%; 
+                            border-collapse: collapse; 
+                            border: 1px solid black;
+                        }
+                        table.table_head td, table.table_head th  {
+                            border: none;
+                        }
+                        table.table_foot1 {
+                            width: 100%; 
+                            border-collapse: collapse; 
+                        }
+                        table.table_foot1 td, table.table_foot1 th  {
+                            border: none;
+                        } 
+                        table.table_foot2 {
+                            width: 100%; 
+                            border-collapse: collapse; 
+                        }
+                        table.table_foot2 td, table.table_foot2 th  {
+                            border: none;
+                        } 
+                        table.table_footer_addr {
+                            border-collapse: collapse; 
+                        }
+                        table.table_footer_addr td {
+                            border: none;
+                            color: #009565;
+                            font-size: 7pt;
+                            padding-top: 5px;
+                            padding-bottom: 5px;
+                        } 
+                        .tab {
+                            display: inline-block;
+                            margin-left: 110px;
+                        }
+                        
+                    
+                    </style>
+
+            <!-- Add WATERMARK Text -->
+            <div 
+style="position:absolute;opacity:0.20;a-index:200;z-index:800;transform:rotate(300deg);-webkit-transform:rotate(300deg);width:100%;" >
+                <t t-if="doc.state=='draft' or doc.state=='sent'">
+                    <p style="font-size:110px;">DRAFT</p>
+                </t>
+                <t t-if="doc.state=='cancel'">
+                    <p style="font-size:110px;">CANCELLED</p>
+                </t>
+            </div>
+
+                    
+                    <table class="table_base">
+                        <tr>
+                            <td colspan="6" style="padding: 10px;">
+                                <div class="row">
+                                    <div class="col-3">
+                                    </div>
+                                    <div class="col-6 text-center">
+                                        <span style="font-size: 13pt; font-weight: bold; vertical-align: center;">PT. GOKOMODO UNITI INDONESIA</span>
+                                    </div>
+                                    <div class="col-3">
+                                        <img src="/sdt_form_gokomodo/static/img/gokomodo2.png" style="width: 150px; height: auto; float:right; vertical-align: center;"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 10px;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span style="font-weight: bold;">To :</span> <br/>
+                                        <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["name", "address"], "no_marker": True}'/> <br/>
+                                        <span>P.I.C : <span t-field="doc.pic_partner_id.name"/> </span> <br/>
+                                        <span>Phone : <span t-field="doc.pic_partner_id.phone"/> </span> 
+                                    </div>
+                                    <div class="col-6">
+                                        <table class="table_head">
+                                            <tr>
+                                                <td colspan="3" class="text-center" style="background: #009565; border-bottom: 1px solid black;"><b>PURCHASE ORDER</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td width="40%">PO No</td>
+                                                <td width="2%">:</td>
+                                                <td width="58%"><span t-field="doc.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>PO Date</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.date_order" t-options="{&quot;format&quot;:&quot;dd/MM/YYYY&quot;}"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Contact Person</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.user_id.partner_id.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.user_id.partner_id.phone"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ref</td>
+                                                <td>:</td>
+                                                <td><span t-field="doc.partner_ref"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Item</th>
+                            <th>Material Description</th>
+                            <th>Qty</th>
+                            <th>Uom</th>
+                            <th>Unit Price</th>
+                            <th>Total Price</th>
+                        </tr>
+                        <t t-set="number" t-value="1"/>
+                        <t t-set="pph" t-value="0"/>
+                        <t t-set="ppn" t-value="0"/>
+                        <t t-set="discount" t-value="0"/>
+                        <t t-set="subtotal" t-value="0"/>
+                        <t t-set="netto" t-value="0"/>
+                        <t t-set="lain_lain" t-value="0"/>
+                        <tr t-foreach="doc.order_line" t-as="line">
+                            <td class="text-center"><span t-esc="number"/></td>
+                            <td><span t-field="line.name"/></td>
+                            <td class="text-center"><span t-esc="'{0:,.0f}'.format(line.product_qty)"/></td>
+                            <td class="text-center"><span t-field="line.product_uom.name"/></td>
+<!--                            <td class="text-right"><span t-esc="'{0:,.0f}'.format(line.price_befdisc)"/></td> -->
+<!--                            <td class="text-right"><span t-esc="'{0:,.0f}'.format(line.price_befdisc * line.product_qty)"/></td> -->
+                            <td class="text-right"><span t-esc="'{0:,.0f}'.format(line.price_unit_tax)"/></td>
+                            <td class="text-right"><span t-esc="'{0:,.0f}'.format(line.price_unit_tax * line.product_qty)"/></td>
+                            <t t-set="number" t-value="number+1"/>
+                            <t t-foreach="line.taxes_id" t-as="tax">
+                                <t t-if="tax.amount &lt; 0">
+                                    <t t-set="pph" t-value="pph + (line.product_qty * line.price_unit_tax * tax.amount / 100)"/>
+                                </t>
+                                <t t-else="">
+                                    <t t-set="ppn" t-value="ppn + (line.product_qty * line.price_unit_tax * tax.amount / 100)"/>
+                                </t>
+<!--                                <t t-set="discount" t-value="discount + (line.price_befdisc * line.discount / 100)"/>
+                                <t t-set="subtotal" t-value="subtotal + (line.price_befdisc * line.product_qty)"/>
+-->
+                                <t t-set="discount" t-value="discount + (line.price_unit_tax * line.discount / 100)"/>
+                                <t t-set="subtotal" t-value="subtotal + (line.price_unit_tax * line.product_qty)"/>
+                            </t>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 10px;">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <table class="table_foot1">
+                                            <tr>
+                                                <td width="30%"><b>Delivery Time</b></td>
+                                                <td width="2%">:</td>
+                                                <td width="68%"><b><span t-field="doc.delivery_time"/></b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Delivery Term</b></td>
+                                                <td>:</td>
+                                                <td><b><span t-field="doc.delivery_term"/></b></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Payment Term</b></td>
+                                                <td>:</td>
+                                                <td><b><span t-field="doc.payment_term_id.name"/></b></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-5">
+                                        <table class="table_foot2">
+                                            <tr>
+                                                <td width="42%">Subtotal</td>
+                                                <td width="5%">:<span t-field="doc.currency_id.name"/></td>
+                                                <td width="53%" class="text-right"><span t-esc="'{0:,.0f}'.format(subtotal - discount)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Diskon</td>
+                                                <td>:<span t-field="doc.currency_id.name"/></td>
+                                                <td class="text-right"><span t-esc="'{0:,.0f}'.format(discount)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Netto</td>
+                                                <td>:<span t-field="doc.currency_id.name"/></td>
+                                                <td class="text-right"><span t-esc="'{0:,.0f}'.format(subtotal)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>PPN 11%</td>
+                                                <td>:<span t-field="doc.currency_id.name"/></td>
+                                                <td class="text-right"><span t-esc="'{0:,.0f}'.format(ppn)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>PPH</td>
+                                                <td>:<span t-field="doc.currency_id.name"/></td>
+                                                <td class="text-right"><span t-esc="'{0:,.0f}'.format(pph)"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Biaya Lain-lain</td>
+                                                <td>:<span t-field="doc.currency_id.name"/></td>
+                                                <td class="text-right"><span t-esc="lain_lain"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Total</b></td>
+                                                <td><b>:<span t-field="doc.currency_id.name"/></b></td>
+                                                <td class="text-right"><b><span t-esc="'{0:,.0f}'.format(doc.amount_total)"/></b></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 10px;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <span><b><u>Alamat Pengiriman/Pengambilan Barang :</u></b></span> <br/>
+                                        <t t-if="doc.partner_all_address">
+                                            <span t-field="doc.partner_all_address"/> <br/>
+                                            <!-- <span t-field="doc.partner_address2"/> <br/>
+                                            <span t-field="doc.partner_city"/> 
+                                            <span t-field="doc.partner_zip"/> <br/> -->
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="doc.picking_type_id.warehouse_id.partner_id.street"/> <br/>
+                                            <span t-field="doc.picking_type_id.warehouse_id.partner_id.street2"/> <br/>
+                                            <span t-field="doc.picking_type_id.warehouse_id.partner_id.city"/> 
+                                            <span t-field="doc.picking_type_id.warehouse_id.partner_id.zip"/> <br/>
+                                        </t>
+                                    </div>
+                                    <div class="col-6">
+                                        
+                                    </div>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 10px;">
+                                <span><b><u>Note :</u></b></span> <br/>
+                                <t t-raw="doc.notes" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 10px;">
+                                <div class="row">
+                                    <div class="col-6" style="text-align: center">
+                                        <span><b>PT. Gokomodo Uniti Indonesia</b></span> 
+                                        <br/> <br/> <br/> <br/> <br/>
+                                        <!-- <span>_________________________</span> <br/> -->
+                                        <span style="font-size: 7pt;"><i>This is computer generated. No signature is required</i></span> <br/>
+                                    </div>
+                                    <div class="col-6" style="text-align: center">
+                                        <span><b>Diterima Oleh,</b></span> 
+                                        <br/> <br/> <br/> <br/> <br/>
+                                        <span>_________________________</span> <br/>
+                                        <span />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding: 15px;">
+                                <div class="row">
+                                    <div class="col-1">
+                                        
+                                    </div>
+                                    <div class="col-4">
+                                        <table class="table_footer_addr">
+                                            <tr>
+                                                <td><i class="fa fa-map-marker"/></td>
+                                                <td>
+                                                    <!-- <span t-field="doc.company_id.street"/> <br/>
+                                                    <span t-field="doc.company_id.street2"/> <br/>
+                                                    <span t-field="doc.company_id.city"/> 
+                                                    <span t-field="doc.company_id.zip"/>  -->
+                                                    <span>Gokomodo Head Office</span> <br/>
+                                                    <span>Jl. Hang Lexir X No.7, Kebayoran Baru</span> <br/>
+                                                    <span>Jakarta Selatan 12120</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-4">
+                                        <table class="table_footer_addr">
+                                            <tr>
+                                                <td><i class="fa fa-globe"/></td>
+                                                <td><span t-field="doc.company_id.website"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td><i class="fa fa-envelope"/></td>
+                                                <td><span t-field="doc.company_id.email"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-3">
+                                        <table class="table_footer_addr">
+                                            <tr>
+                                                <td><i class="fa fa-phone"/></td>
+                                                <td><span t-field="doc.company_id.phone"/></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" style="padding:0;">
+                                <div width="100%" style="background: #009565; padding:0; margin:0;"><br/></div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </t>
+        </template>
+
+        <!-- Header -->
+        <template id="header_internal_layout_gui" inherit_id="web.internal_layout" primary="True">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header" style="margin-top:10px; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- <img src="/sdt_standard_form/static/img/master_logo.png" style="width: 250px; height: auto; float:left; vertical-align: center;"/> -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="row">
+                        
+                    </div>
+                    <div style="text-align: center; font-Size:8pt; color: gray;">
+                        Hal <span class="page"/> / <span class="topage"/>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+
+    </data>
+</odoo>

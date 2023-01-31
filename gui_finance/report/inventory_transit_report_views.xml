@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="main_template_inventory_transit_sales_report" inherit_id="account_reports.main_template" primary="True">
+            <xpath expr="//div[hasclass('o_account_reports_page')]" position="attributes">
+                <attribute name="class">o_account_reports_page o_account_reports_no_print o_account_assets_report</attribute>
+            </xpath>
+        </template>
+
+        <template id="line_caret_options" inherit_id="account_reports.line_caret_options">
+            <xpath expr="//li[last()]" position="replace">
+                <li t-if="line['caret_options'] == 'sale.order'">
+                  <a role="menuitem" tabindex="0" t-att-data-id="line['id']" action="open_data_so" class="dropdown-item">Open Sale Order</a>
+                </li>
+                <li t-if="line['caret_options'] == 'sale.order' and line['po'] != False">
+                  <a role="menuitem" tabindex="1" t-att-data-id="line['po']" action="open_data_so_po" class="dropdown-item">Open Purchase Order</a>
+                </li>
+                <li t-if="line['caret_options'] == 'purchase.order'">
+                  <a role="menuitem" tabindex="0" t-att-data-id="line['id']" action="open_data_po" class="dropdown-item">Open Purchase Order</a>
+                </li>
+            </xpath>
+        </template>
+
+        <record id="action_inventory_transit_sales_report" model="ir.actions.client">
+            <field name="name">Inventory Transit Sales Report</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'model': 'inventory.transit.sales.report'}" />
+        </record>
+
+        <template id="main_template_inventory_transit_purchase_report" inherit_id="account_reports.main_template" primary="True">
+            <xpath expr="//div[hasclass('o_account_reports_page')]" position="attributes">
+                <attribute name="class">o_account_reports_page o_account_reports_no_print o_account_assets_report</attribute>
+            </xpath>
+        </template>
+
+        <record id="action_inventory_transit_purchase_report" model="ir.actions.client">
+            <field name="name">Inventory Transit Purchase Report</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'model': 'inventory.transit.purchase.report'}" />
+        </record>
+
+        <template id="main_template_inventory_transit_dropship_report" inherit_id="account_reports.main_template" primary="True">
+            <xpath expr="//div[hasclass('o_account_reports_page')]" position="attributes">
+                <attribute name="class">o_account_reports_page o_account_reports_no_print o_account_assets_report</attribute>
+            </xpath>
+        </template>
+
+        <record id="action_inventory_transit_dropship_report" model="ir.actions.client">
+            <field name="name">Inventory Transit Dropship Report</field>
+            <field name="tag">account_report</field>
+            <field name="context" eval="{'model': 'inventory.transit.dropship.report'}" />
+        </record>
+
+    </data>
+</odoo>

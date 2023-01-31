@@ -1,0 +1,212 @@
+<odoo>
+    <data>
+
+        <report id="sdt_form_gokomodo.report_standard_delivery_menu"
+                string="Surat Jalan Gokomodo"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                file="stock.picking"
+                name="gui_inventory.standard_delivery_report"
+                paperformat="sdt_form_gokomodo.paperformat_sdt_form_gokomodo">
+        </report>
+
+        <template id="standard_delivery_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="gui_inventory.standard_delivery_document"></t>
+                </t>
+            </t>
+        </template>
+
+        <template id="standard_delivery_document">
+            <!-- <t t-call="sdt_form_gokomodo.delivery_internal_layout"> -->
+            <t t-call="gui_inventory.gui_header_internal_layout">
+            <!-- <t t-call="web.external_layout"> -->
+                <div style="font-Size:10pt" class="page">
+                    <style type="text/css">
+                    
+                        th, td {
+                            padding-left: 5px;
+                            padding-right: 5px;
+                        }
+                        table.table_detail {
+                            width: 100%; 
+                            border-collapse: collapse; 
+                            margin-top: 20px;
+                        }
+                        table.table_detail td, table.table_detail th  {
+                            border: 1px solid black;
+                            font-size: 10pt;
+                        } 
+                        .tab {
+                            display: inline-block;
+                            margin-left: 110px;
+                            border-bottom: 1px solid black;
+                        }
+                        
+                    
+                    </style>
+
+
+                    <div class="row" style="margin-top:5px;" >
+                        <div class="col-6" >
+                            <div style="border: 1px solid black; padding: 4px"><span t-field="doc.name"/></div>
+                        </div>
+                        <div class="col-6" style="text-align:right;">
+                            <img t-att-src="image_data_uri(doc.company_id.logo)" style="width: 200px; height: auto;" alt="Logo"/> <br/>
+                            <span t-field="doc.company_id.street" style="font-size: 8pt;"/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:15px; margin-bottom:25px;" >
+                        <div class="col-12" style="text-align:center;">
+                            <span style="text-align:center; font-size: 16pt; font-weight: bold;">SURAT JALAN PENGANTARAN</span>
+                        </div>
+                    </div>
+
+                    <t t-set="dropship_address" t-value="request.env['purchase.order'].search([('name','ilike',doc.origin)],limit=1).dest_address_id"/>
+
+                    <table width="100%">
+                        <tr>
+                            <td width="15%">Nama Penerima <span style="float:right;">:</span></td>
+                            <td width="32.5%"> 
+                                <t t-if="dropship_address">
+                                    <span t-esc="dropship_address.name"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="doc.partner_id.name"/>
+                                </t>
+                            </td>
+                            <td width="5%"></td>
+                            <td width="15%">Tanggal <span style="float:right;">:</span></td>
+                            <td width="32.5%"><span t-field="doc.date_done" t-options="{&quot;format&quot;:&quot;dd/MM/YYYY&quot;}"/></td>
+                        </tr>
+                            <t t-set="purchase_order" t-value="request.env['purchase.order'].search([('name','=',doc.group_id.name)],limit=1)"/>
+                            <t t-set="sale_order" t-value="request.env['sale.order'].search([('name','=',doc.group_id.name)],limit=1)"/>
+                        <tr>
+                            <td>Nama Usaha <span style="float:right;">:</span></td>
+                            <td>
+                                <t t-if="dropship_address">
+                                    <span t-esc="dropship_address.name"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="doc.partner_id.name"/>
+                                </t>
+                            </td>
+                            <td></td>
+                            <td>No. PO <span style="float:right;">:</span></td>
+                            <td>
+                                <t t-if="sale_order">
+                                    <span t-esc="sale_order.client_order_ref"/>
+                                </t>
+                                <t t-if="purchase_order">
+                                    <span t-esc="purchase_order.origin"/>
+                                </t>
+                                <t t-if="not doc.group_id">
+                                    <span t-field="doc.origin"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>No. Telp <span style="float:right;">:</span></td>
+                            <td>
+                                <t t-if="dropship_address">
+                                    <span t-esc="dropship_address.phone"/>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="doc.partner_id.phone"/>
+                                </t>
+                            </td>
+                            <td></td>
+                            <td>Alamat Pembeli <span style="float:right;">:</span></td>
+                            <td>
+                                <t t-if="dropship_address">
+                                    <span t-esc="dropship_address" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="doc.partner_id" t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                    
+
+
+                    <table class="table_detail">
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Nama Barang</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-center">UoM</th>
+                            <th class="text-center">Keterangan</th>
+                        </tr>
+                        
+                        <t t-set="LineNum" t-value="1"/>
+                        <tr t-foreach="doc.move_ids_without_package" t-as="line">
+                            <td class="text-center"><span t-esc="LineNum"/></td>
+                            <td><span t-field="line.product_id.name"/></td>
+                            <td class="text-center"><span t-esc="'{0:,.0f}'.format(line.quantity_done)"/></td>
+                            <td class="text-center"><span t-field="line.product_uom.name"/></td>
+                            <td class="text-left"></td>
+                            <t t-set="LineNum" t-value="LineNum+1"/>
+                        </tr>
+                    </table>
+
+                    <div class="row" style="margin-top:15px">
+                        <div class="col-4" style="text-align: center;"> 
+                            <span>Pengirim</span> 
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p>( ______________________ ) <br/> <span>EXPEDISI</span></p>
+                        </div>
+                        <div class="col-4" style="text-align: center;"> 
+                            <span>Penerima</span> 
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p>( ______________________ ) <br/> <span>Tanggal barang diterima : </span></p>
+                        </div>
+                        <div class="col-4" style="text-align: center;"> 
+                            <span>Mengetahui</span> 
+                            <br/>
+                            <br/>
+                            <br/>
+                            <br/>
+                            <p>( ______________________ ) <br/> <span t-field="doc.company_id.name"/></p>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top:15px">
+                        <div class="col-8"><span>Note : </span> <span t-field="doc.note"/></div>
+                    </div>
+
+                </div>
+            </t>
+        </template>
+
+        <!-- Header -->
+        <template id="gui_header_internal_layout" inherit_id="web.internal_layout" primary="True">
+            <xpath expr="//div[@class='header']" position="replace">
+                <div class="header" style="margin-top:10px; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- <img src="/sdt_standard_form/static/img/master_logo.png" style="width: 250px; height: auto; float:left; vertical-align: center;"/> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="footer">
+                    <div class="row">
+                        
+                    </div>
+                    <div style="text-align: center; font-Size:8pt; color: gray;">
+                        Hal <span class="page"/> / <span class="topage"/>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

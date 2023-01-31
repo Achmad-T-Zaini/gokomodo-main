@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="approval_category_view_form_extends" model="ir.ui.view">
+        <field name="name">approval.category.form</field>
+        <field name="model">approval.category</field>
+        <field name="inherit_id" ref="approvals.approval_category_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='options']" position="before">
+                <page name="approvers" string='Approvers'>
+                    <group name="cm_fm">
+                        <group>
+                            <field name="approval_cm" />
+                            <field name="approval_fm" />
+                        </group>
+                    </group>
+                    <group name='approver_lines'>
+                        <field name="approval_lines" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="sequence" invisible="1"/>
+                                <field name="approval_categ_id" invisible="1"/>
+                                <field name="company_id" invisible="1" />
+                                <field name="name" />
+                                <field name="user_ids" widget="many2many_tags" domain="[('share', '=', False)]"/>
+                                <field name="minimum_amount" />
+                                <field name="maximum_amount" />
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

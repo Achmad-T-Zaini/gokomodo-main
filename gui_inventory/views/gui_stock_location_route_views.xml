@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="stock_location_route_form_view_dropship_gui_form" model="ir.ui.view">
+            <field name="name">stock.location.route.inherit.form.gui</field>
+            <field name="model">stock.location.route</field>
+            <field name="inherit_id" ref="stock.stock_location_route_form_view"/>
+            <field name="arch" type="xml">
+                <field name="company_id" position="after">
+                        <field name="is_dropship" string="Dropship Routes?" />
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_view_warehouse_gui_form" model="ir.ui.view">
+            <field name="name">stock.warehouse.inherit.form.gui</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                        <field name="is_dropship" />
+                </field>
+            </field>
+        </record>
+
+        <record id="stock_view_picking_gui_form_cek_status" model="ir.ui.view">
+            <field name="name">stock.picking.inherit.form.gui_cek_status</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="sdt_sale_order_gui.view_picking_form_inherit_form"/>
+            <field name="arch" type="xml">
+                <field name="bool_good_delivery" position="after">
+                        <field name="cek_status" invisible='1'/>
+                </field>
+            </field>
+        </record>
+    </data>
+
+</odoo>

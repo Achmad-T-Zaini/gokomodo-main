@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="account.menu_action_inventory_transit_report" name="Inventory Transit Report"
+                parent="account.menu_finance_reports" sequence="10"
+            />
+            
+        <menuitem id="account.menu_action_inventory_transit_so_report" name="Sales Report"
+                parent="account.menu_action_inventory_transit_report" 
+                action="action_inventory_transit_sales_report" sequence="1"
+            />
+        <menuitem id="account.menu_action_inventory_transit_po_report" name="Purchase Report"
+                parent="account.menu_action_inventory_transit_report" 
+                action="action_inventory_transit_purchase_report" sequence="2"
+            />
+        <menuitem id="account.menu_action_inventory_transit_dropship_report" name="Dropship Report"
+                parent="account.menu_action_inventory_transit_report" 
+                action="action_inventory_transit_dropship_report" sequence="3"
+            />
+
+    </data>
+</odoo>

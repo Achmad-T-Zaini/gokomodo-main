@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="ir.ui.view" id="base_view_partner_form_inherit_gui">
+            <field name="name">res.partner.view.inherit.gui</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='vat']" position="before">
+                        <field name="partner_longitude" />
+                        <field name="partner_latitude" />
+                    <!-- penambahan field longitude dan latitude -->
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

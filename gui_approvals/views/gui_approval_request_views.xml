@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <record model="ir.ui.view" id="gui_approval_request_form_inherit">
+            <field name="name">gui.approval.request.view.form.inherit</field>
+            <field name="model">approval.request</field>
+            <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@name='products']" position="replace">
+                    <page name="products" string="Product"  attrs="{'invisible': [('sale_id', '!=', False)]}">
+                        <form string="Products">
+                            <sheet>
+                                <group>
+                                    <field name="product_line_ids" nolabel="1" >
+                                        <tree>
+                                            <field name="company_id" invisible="1"/>
+                                            <field name="product_id"/>
+                                            <field name="description"/>
+                                            <field name="quantity"/>
+                                            <field name="product_uom_id" groups="uom.group_uom"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group >
+                                    <field name="notes" placeholder="Notes / Reasons..."/>
+                                </group>
+                            </sheet>
+                        </form>
+                    </page>
+                    <page name="new_product_so" string="Product" attrs="{'invisible': [('sale_id', '=', False)]}">
+                        <form name="product_so" >
+                        <sheet>
+                                <group style="overflow: auto; display: block;">
+                                    <field name="product_so_line_ids" nolabel="1" >
+                                        <tree>
+                                            <field name="company_id" invisible="1"/>
+                                            <field name="product_id"/>
+                                            <field name="description"/>
+                                            <field name="quantity"/>
+                                            <field name="product_uom_id" groups="uom.group_uom"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                            <field name="standard_price" />
+                                            <field name="cost_market" />
+                                            <field name="price_margin" />
+                                            <field name="price_margin_percentage" />
+                                            <field name="price_unit" />
+                                            <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" />
+                                            <field name="discount_show" />
+                                            <field name="discount_amount" />
+                                            <field name="price_subtotal" />
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="amount_without_discount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="discount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="amount_total"/>
+                                    </div>
+                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <group colspan="4">
+                                    <field name="notes" placeholder="Notes / Reasons..."/>
+                                </group>
+                                <div class="oe_clear"/>
+                        </sheet>
+                        </form>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="gui_approval_product_line_view_tree_inherit">
+            <field name="name">gui.approval.product.line.view.tree.inherit</field>
+            <field name="model">approval.product.line</field>
+            <field name="inherit_id" ref="approvals.approval_product_line_view_tree"/>
+            <field name="arch" type="xml">
+
+                <field name="product_uom_category_id" position="after">
+                        <field name="standard_price" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="cost_market" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="price_margin" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="price_margin_percentage" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="price_unit" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="tax_id" widget="many2many_tags" options="{'no_create': True}" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="discount_show" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="discount_amount" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="price_subtotal" attrs="{'invisible': [('sale_line_id', '=', False)]}" />
+                        <field name="sale_line_id" invisible='1' />
+                </field>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="gui_approval_request_wizard">
+            <field name="name">gui.approval.request.wizard</field>
+            <field name="model">approval.request.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Refuse / Cancel Reason">
+                    <group>
+                        <field name="approval_request_id" invisible="1"/>
+                        <field name="state" invisible="1"/>
+                        <field name="message" required="1"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_confirm" type="object" string="Confirm" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+
+    </data>
+
+</odoo>
