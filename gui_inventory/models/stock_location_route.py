@@ -36,10 +36,10 @@ class StockPicking(models.Model):
 
         return res
 
-    def write(self,vals):
-        raise UserError(_('vals %s')%(vals))
-        res = super(StockPicking, self).create(vals)
-        return res
+#    def write(self,vals):
+#        raise UserError(_('vals %s')%(vals))
+#        res = super(StockPicking, self).create(vals)
+#        return res
 
 
 
